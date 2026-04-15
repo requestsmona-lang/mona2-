@@ -64,15 +64,6 @@ const editorialImagesAfter = [
     marginBottom: 'mb-24',
   },
   {
-    src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TFEModa2425_Mariona_Ramos_Editorial_14-USAxdSCRHMUr25TsjY3mG1lswT96jk.jpg',
-    alt: 'Seated model with star collar and brocade gown',
-    from: 'left',
-    offsetX: '8%',
-    width: 'w-[50%] md:w-[26%]',
-    aspect: 'aspect-[2/3]',
-    marginBottom: 'mb-20',
-  },
-  {
     src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TFEModa2425_Mariona_Ramos_Editorial_35-7E2MRMsF40I6Q7FIYcSxqHw5ioqxON.jpg',
     alt: 'Two models in checkered outfits on daybed',
     from: 'right',
