@@ -25,7 +25,7 @@ export function HeroSection() {
         className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
         aria-hidden="true"
       >
-        <span className="text-[9px] tracking-[0.3em] uppercase text-white/75 font-sans">
+        <span className="text-[9px] tracking-[0.3em] uppercase text-white/90 font-sans font-normal">
           scroll
         </span>
         <svg
@@ -34,13 +34,13 @@ export function HeroSection() {
           viewBox="0 0 10 16"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          className="text-white/65"
+          className="text-white/85"
           style={{ animation: 'bounce-subtle 2s ease-in-out infinite' }}
         >
           <path
             d="M5 0L5 14M5 14L1 10M5 14L9 10"
             stroke="currentColor"
-            strokeWidth="1.4"
+            strokeWidth="1.7"
             strokeLinecap="round"
             strokeLinejoin="round"
           />

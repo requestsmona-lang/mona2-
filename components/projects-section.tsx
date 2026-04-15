@@ -264,7 +264,7 @@ function CreditBlock({
       {lines.map((line, i) => (
         <p
           key={i}
-          className="font-sans text-[9px] tracking-[0.18em] uppercase text-muted-foreground/60 leading-[2.2]"
+          className="font-sans text-[9px] tracking-[0.18em] uppercase text-muted-foreground/80 leading-[2.2]"
           style={{ textAlign: align }}
         >
           {line}
