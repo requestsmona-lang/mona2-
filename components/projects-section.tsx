@@ -303,39 +303,57 @@ function LookbookImage({ src, alt, onClick }: { src: string; alt: string; onClic
 
 function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
   useEffect(() => {
+    // Lock scroll
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
     }
     document.addEventListener('keydown', handleKey)
-    return () => document.removeEventListener('keydown', handleKey)
+
+    return () => {
+      document.body.style.overflow = prev
+      document.removeEventListener('keydown', handleKey)
+    }
   }, [onClose])
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-background/95"
+      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      style={{ backgroundColor: 'rgba(0,0,0,0.92)' }}
       onClick={onClose}
       role="dialog"
       aria-modal="true"
       aria-label={alt}
     >
+      {/* Close button */}
       <button
-        className="absolute top-6 right-8 font-sans text-[9px] tracking-[0.3em] uppercase text-muted-foreground hover:text-foreground transition-colors"
-        onClick={onClose}
-        aria-label="Close"
+        className="absolute top-6 right-8 font-sans text-[10px] tracking-[0.3em] uppercase text-white/70 hover:text-white transition-colors"
+        onClick={(e) => { e.stopPropagation(); onClose() }}
+        aria-label="Close lightbox"
       >
         Close
       </button>
+
+      {/* Image — natural size, max constrained to viewport */}
       <div
-        className="relative max-h-[88vh] max-w-[90vw] md:max-w-[70vw]"
+        className="relative"
         onClick={(e) => e.stopPropagation()}
-        style={{ aspectRatio: '2/3' }}
+        style={{ maxHeight: '88vh', maxWidth: '85vw' }}
       >
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={src}
           alt={alt}
-          fill
-          className="object-contain"
-          sizes="(max-width: 768px) 90vw, 70vw"
+          style={{
+            display: 'block',
+            maxHeight: '88vh',
+            maxWidth: '85vw',
+            width: 'auto',
+            height: 'auto',
+            objectFit: 'contain',
+          }}
         />
       </div>
     </div>
