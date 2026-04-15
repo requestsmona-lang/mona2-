@@ -5,11 +5,31 @@ import { useState } from 'react'
 export function ContactSection() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Replace with your form handler / API route
-    setSubmitted(true)
+    setLoading(true)
+    setError(false)
+
+    try {
+      const res = await fetch('https://formspree.io/f/xvzdzvwo', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: formData.name, email: formData.email, message: formData.message }),
+      })
+
+      if (res.ok) {
+        setSubmitted(true)
+      } else {
+        setError(true)
+      }
+    } catch {
+      setError(true)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -147,11 +167,18 @@ export function ContactSection() {
                   />
                 </div>
 
+                {error && (
+                  <p className="text-[10px] tracking-[0.16em] uppercase text-muted-foreground">
+                    Something went wrong. Please try again.
+                  </p>
+                )}
+
                 <button
                   type="submit"
-                  className="text-[10px] tracking-[0.22em] uppercase text-foreground border-b border-foreground pb-0.5 hover:text-muted-foreground hover:border-muted-foreground transition-colors duration-200"
+                  disabled={loading}
+                  className="text-[10px] tracking-[0.22em] uppercase text-foreground border-b border-foreground pb-0.5 hover:text-muted-foreground hover:border-muted-foreground transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                 >
-                  Send
+                  {loading ? 'Sending...' : 'Send'}
                 </button>
               </form>
             )}
