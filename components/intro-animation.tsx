@@ -2,41 +2,36 @@
 
 import { useEffect, useState } from 'react'
 
+// Phase timeline:
+// 'hold'    — black screen, logo breathes (0 → 900ms)
+// 'reveal'  — logo scales up dramatically, background fades out (900ms → 1700ms)
+// 'done'    — overlay removed from DOM
+type Phase = 'hold' | 'reveal' | 'done'
+
 export function IntroAnimation() {
-  // 'intro'   — showing the full-screen overlay with breathing logo
-  // 'leaving' — overlay is transitioning out (logo scales up, overlay fades)
-  // 'done'    — overlay is removed from DOM
-  const [phase, setPhase] = useState<'intro' | 'leaving' | 'done'>('intro')
+  const [phase, setPhase] = useState<Phase>('hold')
 
   useEffect(() => {
-    // Only play on true browser page load/refresh, not on SPA navigation.
-    // sessionStorage persists for the tab session but is cleared on hard reload.
+    // Only play on true browser page load/refresh
     const already = sessionStorage.getItem('mona_intro_played')
     if (already) {
       setPhase('done')
       return
     }
-
-    // Mark as played immediately so back-navigation or logo clicks skip it
     sessionStorage.setItem('mona_intro_played', '1')
 
-    // Breathing phase: ~1 s, then begin exit transition
-    const exitTimer = setTimeout(() => {
-      setPhase('leaving')
-    }, 1100)
-
-    // Remove from DOM after exit transition completes (~700 ms)
-    const doneTimer = setTimeout(() => {
-      setPhase('done')
-    }, 1800)
+    const revealTimer = setTimeout(() => setPhase('reveal'), 900)
+    const doneTimer  = setTimeout(() => setPhase('done'),   1750)
 
     return () => {
-      clearTimeout(exitTimer)
+      clearTimeout(revealTimer)
       clearTimeout(doneTimer)
     }
   }, [])
 
   if (phase === 'done') return null
+
+  const isRevealing = phase === 'reveal'
 
   return (
     <div
@@ -45,14 +40,16 @@ export function IntroAnimation() {
         position: 'fixed',
         inset: 0,
         zIndex: 9998,
-        backgroundColor: '#000',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        // Fade the whole overlay out during 'leaving'
-        opacity: phase === 'leaving' ? 0 : 1,
-        transition: phase === 'leaving' ? 'opacity 700ms ease-in-out' : 'none',
-        pointerEvents: phase === 'leaving' ? 'none' : 'all',
+        pointerEvents: isRevealing ? 'none' : 'all',
+        // Background fades out during reveal
+        backgroundColor: '#000',
+        opacity: isRevealing ? 0 : 1,
+        transition: isRevealing
+          ? 'opacity 800ms cubic-bezier(0.4, 0, 0.2, 1)'
+          : 'none',
       }}
     >
       <span
@@ -62,10 +59,14 @@ export function IntroAnimation() {
           color: '#fff',
           letterSpacing: '0.08em',
           userSelect: 'none',
-          // Breathing animation during 'intro', gentle scale-up during 'leaving'
-          animation: phase === 'intro' ? 'mona-breathe 1.6s ease-in-out infinite' : 'none',
-          transform: phase === 'leaving' ? 'scale(1.08)' : 'scale(1)',
-          transition: phase === 'leaving' ? 'transform 700ms ease-in-out' : 'none',
+          display: 'block',
+          // During hold: subtle breath animation
+          // During reveal: scale up toward viewer
+          animation: !isRevealing ? 'mona-breathe 1.4s ease-in-out infinite' : 'none',
+          transform: isRevealing ? 'scale(5)' : 'scale(1)',
+          transition: isRevealing
+            ? 'transform 800ms cubic-bezier(0.4, 0, 0.2, 1)'
+            : 'none',
         }}
       >
         Mona
@@ -73,8 +74,8 @@ export function IntroAnimation() {
 
       <style>{`
         @keyframes mona-breathe {
-          0%, 100% { opacity: 0.55; }
-          50%       { opacity: 1;    }
+          0%, 100% { opacity: 0.45; }
+          50%       { opacity: 1;   }
         }
       `}</style>
     </div>
