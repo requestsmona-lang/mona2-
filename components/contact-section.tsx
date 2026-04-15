@@ -89,7 +89,9 @@ export function ContactSection() {
                   Email
                 </p>
                 <a
-                  href="mailto:requestsmona@gmail.com"
+                  href="https://mail.google.com/mail/?view=cm&fs=1&to=requestsmona@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-sm font-light text-foreground hover:text-muted-foreground transition-colors duration-200"
                 >
                   requestsmona@gmail.com
