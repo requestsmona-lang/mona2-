@@ -301,7 +301,19 @@ function LookbookImage({ src, alt, onClick }: { src: string; alt: string; onClic
   )
 }
 
-function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+function Lightbox({
+  src,
+  alt,
+  onClose,
+  onPrev,
+  onNext,
+}: {
+  src: string
+  alt: string
+  onClose: () => void
+  onPrev: () => void
+  onNext: () => void
+}) {
   useEffect(() => {
     // Lock scroll
     const prev = document.body.style.overflow
@@ -309,6 +321,8 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
 
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowLeft') onPrev()
+      if (e.key === 'ArrowRight') onNext()
     }
     document.addEventListener('keydown', handleKey)
 
@@ -316,7 +330,7 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
       document.body.style.overflow = prev
       document.removeEventListener('keydown', handleKey)
     }
-  }, [onClose])
+  }, [onClose, onPrev, onNext])
 
   return (
     <div
@@ -334,6 +348,28 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
         aria-label="Close lightbox"
       >
         Close
+      </button>
+
+      {/* Prev arrow */}
+      <button
+        className="absolute left-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+        onClick={(e) => { e.stopPropagation(); onPrev() }}
+        aria-label="Previous image"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 3L6 10L13 17" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      {/* Next arrow */}
+      <button
+        className="absolute right-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+        onClick={(e) => { e.stopPropagation(); onNext() }}
+        aria-label="Next image"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 3L14 10L7 17" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </button>
 
       {/* Image — natural size, max constrained to viewport */}
@@ -361,14 +397,15 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
 }
 
 export function ProjectsSection() {
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
-  const [lightboxAlt, setLightboxAlt] = useState<string>('')
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
-  const openLightbox = (src: string, alt: string) => {
-    setLightboxSrc(src)
-    setLightboxAlt(alt)
+  const openLightbox = (_src: string, _alt: string) => {
+    const idx = lookbookImages.findIndex((img) => img.src === _src)
+    setLightboxIndex(idx >= 0 ? idx : 0)
   }
-  const closeLightbox = () => setLightboxSrc(null)
+  const closeLightbox = () => setLightboxIndex(null)
+  const prevLightbox = () => setLightboxIndex((i) => i !== null ? (i - 1 + lookbookImages.length) % lookbookImages.length : null)
+  const nextLightbox = () => setLightboxIndex((i) => i !== null ? (i + 1) % lookbookImages.length : null)
 
   return (
     <section
@@ -560,8 +597,14 @@ export function ProjectsSection() {
       </div>
 
       {/* Lightbox */}
-      {lightboxSrc && (
-        <Lightbox src={lightboxSrc} alt={lightboxAlt} onClose={closeLightbox} />
+      {lightboxIndex !== null && (
+        <Lightbox
+          src={lookbookImages[lightboxIndex].src}
+          alt={lookbookImages[lightboxIndex].alt}
+          onClose={closeLightbox}
+          onPrev={prevLightbox}
+          onNext={nextLightbox}
+        />
       )}
     </section>
   )

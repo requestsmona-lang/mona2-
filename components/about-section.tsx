@@ -22,10 +22,10 @@ export function AboutSection() {
               Mona
             </h2>
             <p className="text-sm tracking-[0.08em] text-muted-foreground leading-relaxed mb-2">
-              Born in Barcelona.
+              Born &amp; based in Barcelona
             </p>
             <p className="text-sm tracking-[0.08em] text-muted-foreground leading-relaxed mb-10">
-              Based in Barcelona,<br />currently in Amsterdam.<br />Works internationally.
+              Works internationally
             </p>
             <div className="w-8 h-px bg-border" aria-hidden="true" />
           </div>
