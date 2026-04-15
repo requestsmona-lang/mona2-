@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Beth_Ellen, Cormorant_Garamond } from 'next/font/google'
+import { Beth_Ellen, Courier_Prime } from 'next/font/google'
 import './globals.css'
 
 const bethEllen = Beth_Ellen({
@@ -8,8 +8,8 @@ const bethEllen = Beth_Ellen({
   variable: '--font-logo',
 })
 
-const cormorant = Cormorant_Garamond({
-  weight: ['300', '400', '500', '600'],
+const courierPrime = Courier_Prime({
+  weight: ['400', '700'],
   style: ['normal', 'italic'],
   subsets: ['latin'],
   variable: '--font-sans',
@@ -32,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${bethEllen.variable} bg-background`}>
+    <html lang="en" className={`${courierPrime.variable} ${bethEllen.variable} bg-background`}>
       <body className="font-sans antialiased">{children}</body>
     </html>
   )

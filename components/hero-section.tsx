@@ -22,12 +22,9 @@ export function HeroSection() {
       {/* Overlay tint */}
       <div className="absolute inset-0 bg-foreground/20" aria-hidden="true" />
 
-      {/* Bottom name mark */}
-      <div className="absolute bottom-10 left-8 md:left-16 right-8 md:right-16 flex items-end justify-between">
-        <span className="font-logo text-5xl md:text-7xl text-background/90 leading-none">
-          Mona
-        </span>
-        <span className="text-[10px] tracking-[0.22em] uppercase text-background/50 mb-2">
+      {/* Bottom location mark */}
+      <div className="absolute bottom-10 left-8 md:left-16 right-8 md:right-16 flex items-end justify-end">
+        <span className="text-[10px] tracking-[0.22em] uppercase text-background/50">
           Barcelona — Amsterdam
         </span>
       </div>

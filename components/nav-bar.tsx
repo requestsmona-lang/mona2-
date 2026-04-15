@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 
 const navLinks = [
   { label: 'Home', href: '#home' },
-  { label: 'Projects', href: '#projects' },
   { label: 'About', href: '#about' },
+  { label: 'Projects', href: '#projects' },
   { label: 'Contact', href: '#contact' },
 ]
 
@@ -38,23 +38,23 @@ export function NavBar() {
       }`}
     >
       <nav
-        className="flex items-center justify-between px-8 md:px-16 py-6"
+        className="flex flex-col items-center px-8 md:px-16 pt-8 pb-6"
         aria-label="Main navigation"
       >
-        {/* Logo */}
+        {/* Centered Logo */}
         <a
           href="#home"
           onClick={(e) => {
             e.preventDefault()
             handleNav('#home')
           }}
-          className="font-logo text-2xl text-foreground tracking-wide hover:opacity-70 transition-opacity duration-300"
+          className="font-logo text-4xl md:text-5xl text-foreground tracking-wide hover:opacity-70 transition-opacity duration-300 mb-6"
           aria-label="Mona — Home"
         >
           Mona
         </a>
 
-        {/* Desktop nav */}
+        {/* Desktop nav - centered below logo */}
         <ul className="hidden md:flex items-center gap-10" role="list">
           {navLinks.map((link) => (
             <li key={link.href}>
@@ -64,17 +64,18 @@ export function NavBar() {
                   e.preventDefault()
                   handleNav(link.href)
                 }}
-                className="text-xs tracking-[0.18em] uppercase text-foreground/70 hover:text-foreground transition-colors duration-300"
+                className="relative text-xs tracking-[0.18em] uppercase text-foreground/70 hover:text-foreground transition-colors duration-300 group"
               >
                 {link.label}
+                <span className="absolute left-0 -bottom-1 w-full h-px bg-foreground scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </a>
             </li>
           ))}
         </ul>
 
-        {/* Mobile hamburger */}
+        {/* Mobile hamburger - positioned absolute top right */}
         <button
-          className="md:hidden flex flex-col gap-[5px] p-2"
+          className="md:hidden absolute top-8 right-8 flex flex-col gap-[5px] p-2"
           onClick={() => setMenuOpen((v) => !v)}
           aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={menuOpen}
@@ -112,9 +113,10 @@ export function NavBar() {
                   e.preventDefault()
                   handleNav(link.href)
                 }}
-                className="text-xs tracking-[0.18em] uppercase text-foreground/70 hover:text-foreground transition-colors duration-300"
+                className="relative text-xs tracking-[0.18em] uppercase text-foreground/70 hover:text-foreground transition-colors duration-300 group"
               >
                 {link.label}
+                <span className="absolute left-0 -bottom-1 w-full h-px bg-foreground scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </a>
             </li>
           ))}
