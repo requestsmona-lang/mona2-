@@ -401,7 +401,7 @@ function Lightbox({
             transform: 'rotate(-90deg)',
             transformOrigin: 'left bottom',
             whiteSpace: 'nowrap',
-            left: '0.35rem',
+            left: '-0.75rem',
             bottom: '0',
           }}
           aria-hidden="true"
