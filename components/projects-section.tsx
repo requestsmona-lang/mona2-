@@ -61,16 +61,7 @@ const editorialImagesAfter = [
     offsetX: '10%',
     width: 'w-[62%] md:w-[36%]',
     aspect: 'aspect-[2/3]',
-    marginBottom: 'mb-24',
-  },
-  {
-    src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TFEModa2425_Mariona_Ramos_Editorial_33-Sq8nyhm0Y4aBgZ7VcJxwZMvpTAjCTU.jpg',
-    alt: 'Model seated in checkered outfit with puppet string',
-    from: 'left',
-    offsetX: '8%',
-    width: 'w-[50%] md:w-[26%]',
-    aspect: 'aspect-[2/3]',
-    marginBottom: 'mb-20',
+    marginBottom: 'mb-32',
   },
   {
     src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TFEModa2425_Mariona_Ramos_Editorial_35-7E2MRMsF40I6Q7FIYcSxqHw5ioqxON.jpg',
@@ -470,8 +461,6 @@ export function ProjectsSection() {
 
         <EditorialImage {...editorialImagesAfter[1]} from={editorialImagesAfter[1].from as 'left' | 'right'} />
 
-        <EditorialImage {...editorialImagesAfter[2]} from={editorialImagesAfter[2].from as 'left' | 'right'} />
-
         {/* Credits in the open space — right side, between images */}
         <CreditBlock
           lines={[
@@ -483,9 +472,9 @@ export function ProjectsSection() {
           className="mb-16"
         />
 
-        <EditorialImage {...editorialImagesAfter[3]} from={editorialImagesAfter[3].from as 'left' | 'right'} />
+        <EditorialImage {...editorialImagesAfter[2]} from={editorialImagesAfter[2].from as 'left' | 'right'} />
 
-        <EditorialImage {...editorialImagesAfter[4]} from={editorialImagesAfter[4].from as 'left' | 'right'} />
+        <EditorialImage {...editorialImagesAfter[3]} from={editorialImagesAfter[3].from as 'left' | 'right'} />
 
         {/* Credits in white space — left side */}
         <CreditBlock
@@ -501,9 +490,9 @@ export function ProjectsSection() {
           className="mb-16"
         />
 
-        <EditorialImage {...editorialImagesAfter[5]} from={editorialImagesAfter[5].from as 'left' | 'right'} />
+        <EditorialImage {...editorialImagesAfter[4]} from={editorialImagesAfter[4].from as 'left' | 'right'} />
 
-        <EditorialImage {...editorialImagesAfter[6]} from={editorialImagesAfter[6].from as 'left' | 'right'} />
+        <EditorialImage {...editorialImagesAfter[5]} from={editorialImagesAfter[5].from as 'left' | 'right'} />
 
         {/* Final credits — floated into the open space on the right */}
         <CreditBlock
@@ -518,7 +507,7 @@ export function ProjectsSection() {
           className="mb-16"
         />
 
-        <EditorialImage {...editorialImagesAfter[7]} from={editorialImagesAfter[7].from as 'left' | 'right'} />
+        <EditorialImage {...editorialImagesAfter[6]} from={editorialImagesAfter[6].from as 'left' | 'right'} />
 
         {/* Final tailoring credits */}
         <CreditBlock
