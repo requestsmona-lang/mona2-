@@ -64,8 +64,8 @@ const editorialImagesAfter = [
     marginBottom: 'mb-24',
   },
   {
-    src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TFEModa2425_Mariona_Ramos_Editorial_33-Sq8nyhm0Y4aBgZ7VcJxwZMvpTAjCTU.jpg',
-    alt: 'Model seated in checkered outfit with puppet string',
+    src: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TFEModa2425_Mariona_Ramos_Editorial_14-USAxdSCRHMUr25TsjY3mG1lswT96jk.jpg',
+    alt: 'Seated model with star collar and brocade gown',
     from: 'left',
     offsetX: '8%',
     width: 'w-[50%] md:w-[26%]',
@@ -400,8 +400,8 @@ export function ProjectsSection() {
             style={{ zIndex: 1 }}
           >
             <SecondaryImage
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TFEModa2425_Mariona_Ramos_Editorial_14-USAxdSCRHMUr25TsjY3mG1lswT96jk.jpg"
-              alt="Seated model with star collar and brocade gown"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/TFEModa2425_Mariona_Ramos_Editorial_33-Sq8nyhm0Y4aBgZ7VcJxwZMvpTAjCTU.jpg"
+              alt="Model seated in checkered outfit with puppet string"
             />
           </div>
         </div>
