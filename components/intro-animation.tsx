@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react'
 
 // Phase timeline (first visit):  hold → reveal → done
-// Phase timeline (refresh):       hold → done  (no reveal/zoom)
-type Phase = 'hold' | 'reveal' | 'done'
+// Phase timeline (refresh):       hold → fade → done
+type Phase = 'hold' | 'reveal' | 'fade' | 'done'
 
 export function IntroAnimation() {
   const [phase, setPhase] = useState<Phase>('hold')
@@ -22,15 +22,20 @@ export function IntroAnimation() {
         clearTimeout(doneTimer)
       }
     } else {
-      // Refresh: blink only (same 900ms hold), then straight to done
-      const doneTimer = setTimeout(() => setPhase('done'), 900)
-      return () => clearTimeout(doneTimer)
+      // Refresh: blink (900ms) then soft fade-out (400ms), no zoom
+      const fadeTimer = setTimeout(() => setPhase('fade'), 900)
+      const doneTimer = setTimeout(() => setPhase('done'), 1300)
+      return () => {
+        clearTimeout(fadeTimer)
+        clearTimeout(doneTimer)
+      }
     }
   }, [])
 
   if (phase === 'done') return null
 
   const isRevealing = phase === 'reveal'
+  const isFading    = phase === 'fade'
 
   return (
     <div
@@ -42,12 +47,13 @@ export function IntroAnimation() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        pointerEvents: isRevealing ? 'none' : 'all',
-        // Background fades out during reveal
+        pointerEvents: (isRevealing || isFading) ? 'none' : 'all',
         backgroundColor: '#000',
-        opacity: isRevealing ? 0 : 1,
+        opacity: (isRevealing || isFading) ? 0 : 1,
         transition: isRevealing
           ? 'opacity 800ms cubic-bezier(0.4, 0, 0.2, 1)'
+          : isFading
+          ? 'opacity 400ms ease-in-out'
           : 'none',
       }}
     >
@@ -59,8 +65,6 @@ export function IntroAnimation() {
           letterSpacing: '0.08em',
           userSelect: 'none',
           display: 'block',
-          // During hold: subtle breath animation
-          // During reveal: scale up toward viewer
           animation: !isRevealing ? 'mona-breathe 1.4s ease-in-out infinite' : 'none',
           transform: isRevealing ? 'scale(5)' : 'scale(1)',
           transition: isRevealing
