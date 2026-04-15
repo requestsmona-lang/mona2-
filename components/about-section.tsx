@@ -7,7 +7,7 @@ export function AboutSection() {
     >
       <div className="max-w-6xl mx-auto">
         {/* Section label */}
-        <p className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-20">
+        <p className="text-[12px] tracking-[0.25em] uppercase text-muted-foreground mb-20">
           About
         </p>
 
@@ -22,10 +22,10 @@ export function AboutSection() {
               Mona
             </h2>
             <p className="text-sm tracking-[0.08em] text-muted-foreground leading-relaxed mb-2">
-              Born in Barcelona.
+              Born &amp; based in Barcelona
             </p>
             <p className="text-sm tracking-[0.08em] text-muted-foreground leading-relaxed mb-10">
-              Based in Barcelona,<br />currently in Amsterdam.<br />Works internationally.
+              Works internationally
             </p>
             <div className="w-8 h-px bg-border" aria-hidden="true" />
           </div>
@@ -37,7 +37,7 @@ export function AboutSection() {
               Fashion designer first,<br />
               creative pattern maker after.
             </p>
-            <p className="text-base font-light text-muted-foreground leading-relaxed max-w-lg text-balance">
+            <p className="text-sm font-light text-muted-foreground leading-relaxed max-w-lg text-balance">
               Observing a contemporary landscape that feels increasingly neutral,
               functional, and quiet, the work responds through contrast: through
               visual strength, ornament, and the belief that fashion should move,

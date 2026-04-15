@@ -264,7 +264,7 @@ function CreditBlock({
       {lines.map((line, i) => (
         <p
           key={i}
-          className="font-sans text-[9px] tracking-[0.18em] uppercase text-muted-foreground/60 leading-[2.2]"
+          className="font-sans text-[9px] tracking-[0.18em] uppercase text-muted-foreground/80 leading-[2.2]"
           style={{ textAlign: align }}
         >
           {line}
@@ -301,7 +301,21 @@ function LookbookImage({ src, alt, onClick }: { src: string; alt: string; onClic
   )
 }
 
-function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
+function Lightbox({
+  src,
+  alt,
+  index,
+  onClose,
+  onPrev,
+  onNext,
+}: {
+  src: string
+  alt: string
+  index: number
+  onClose: () => void
+  onPrev: () => void
+  onNext: () => void
+}) {
   useEffect(() => {
     // Lock scroll
     const prev = document.body.style.overflow
@@ -309,6 +323,8 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
 
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
+      if (e.key === 'ArrowLeft') onPrev()
+      if (e.key === 'ArrowRight') onNext()
     }
     document.addEventListener('keydown', handleKey)
 
@@ -316,7 +332,7 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
       document.body.style.overflow = prev
       document.removeEventListener('keydown', handleKey)
     }
-  }, [onClose])
+  }, [onClose, onPrev, onNext])
 
   return (
     <div
@@ -334,6 +350,28 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
         aria-label="Close lightbox"
       >
         Close
+      </button>
+
+      {/* Prev arrow */}
+      <button
+        className="absolute left-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+        onClick={(e) => { e.stopPropagation(); onPrev() }}
+        aria-label="Previous image"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 3L6 10L13 17" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      {/* Next arrow */}
+      <button
+        className="absolute right-6 top-1/2 -translate-y-1/2 text-white/60 hover:text-white transition-colors"
+        onClick={(e) => { e.stopPropagation(); onNext() }}
+        aria-label="Next image"
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M7 3L14 10L7 17" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </button>
 
       {/* Image — natural size, max constrained to viewport */}
@@ -355,20 +393,36 @@ function Lightbox({ src, alt, onClose }: { src: string; alt: string; onClose: ()
             objectFit: 'contain',
           }}
         />
+
+        {/* Rotated look label — lower-left of image */}
+        <span
+          className="absolute text-[12px] tracking-[0.25em] uppercase text-white/80 font-sans pointer-events-none select-none"
+          style={{
+            transform: 'rotate(-90deg)',
+            transformOrigin: 'left bottom',
+            whiteSpace: 'nowrap',
+            left: '-0.75rem',
+            bottom: '0',
+          }}
+          aria-hidden="true"
+        >
+          Look {index + 1}
+        </span>
       </div>
     </div>
   )
 }
 
 export function ProjectsSection() {
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null)
-  const [lightboxAlt, setLightboxAlt] = useState<string>('')
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
 
-  const openLightbox = (src: string, alt: string) => {
-    setLightboxSrc(src)
-    setLightboxAlt(alt)
+  const openLightbox = (_src: string, _alt: string) => {
+    const idx = lookbookImages.findIndex((img) => img.src === _src)
+    setLightboxIndex(idx >= 0 ? idx : 0)
   }
-  const closeLightbox = () => setLightboxSrc(null)
+  const closeLightbox = () => setLightboxIndex(null)
+  const prevLightbox = () => setLightboxIndex((i) => i !== null ? (i - 1 + lookbookImages.length) % lookbookImages.length : null)
+  const nextLightbox = () => setLightboxIndex((i) => i !== null ? (i + 1) % lookbookImages.length : null)
 
   return (
     <section
@@ -376,14 +430,14 @@ export function ProjectsSection() {
       className="px-6 md:px-12 pt-28 pb-12"
       aria-labelledby="projects-heading"
     >
-      <div className="flex items-baseline justify-between mb-20 md:mb-28">
+      <div className="flex items-baseline justify-center mb-20 md:mb-28">
         <h2
           id="projects-heading"
-          className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground"
+          className="text-[12px] tracking-[0.25em] uppercase text-muted-foreground"
         >
-          Projects
+          Projects — Selected Work
         </h2>
-        <span className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground/50">
+        <span className="hidden text-[12px] tracking-[0.2em] uppercase text-muted-foreground/50">
           Selected Work
         </span>
       </div>
@@ -451,7 +505,7 @@ export function ProjectsSection() {
 
       </div>
 
-      {/* ── Collection text block ────────────────────────────────────────── */}
+      {/* ── Collection text block ──────────�����───────���─────────────────────── */}
       <div className="flex flex-col items-center text-center py-20 md:py-32 px-4 md:px-16 lg:px-32 max-w-4xl mx-auto">
         <h3 className="font-logo text-3xl md:text-4xl text-foreground mb-10 text-balance leading-tight">
           Puppet Riot FW25
@@ -544,7 +598,7 @@ export function ProjectsSection() {
 
       {/* ── Lookbook ─────────────────────────────────────────────────────── */}
       <div className="mt-32">
-        <h3 className="text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-12 text-center">
+        <h3 className="text-[12px] tracking-[0.25em] uppercase text-muted-foreground mb-12 text-center">
           Lookbook
         </h3>
         <div className="flex w-full overflow-visible">
@@ -557,11 +611,19 @@ export function ProjectsSection() {
             />
           ))}
         </div>
+
       </div>
 
       {/* Lightbox */}
-      {lightboxSrc && (
-        <Lightbox src={lightboxSrc} alt={lightboxAlt} onClose={closeLightbox} />
+      {lightboxIndex !== null && (
+        <Lightbox
+          src={lookbookImages[lightboxIndex].src}
+          alt={lookbookImages[lightboxIndex].alt}
+          index={lightboxIndex}
+          onClose={closeLightbox}
+          onPrev={prevLightbox}
+          onNext={nextLightbox}
+        />
       )}
     </section>
   )
